@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  
+  
+  <script type="text/javascript" src="{{ url_for('static', filename='js/md5.min.js') }}"></script>
+  <title>PIN POINT ENGINEERS</title>
+</head>
+
+<body class="body" background="{{ url_for('static', filename='images/bck_home.jpg') }}">
+
+<!-- Message Bar start -->
+<div class="container-fluid" style="min-height:10%">
+  {% with messages = get_flashed_messages() %} 
+  <!-- Success Message -->
+    {% if messages and msg%} 
+      {% for message in messages %}
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> 
+        {{message}}
+      </div>
+      {% endfor %} 
+    {% endif %} 
+   
+   <!-- Warning Message -->
+    {% if messages and warn%} 
+      {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> 
+        {{message}}
+      </div>
+      {% endfor %} 
+    {% endif %} 
+	
+	<!-- Error Message -->
+    {% if messages and err%} 
+      {% for message in messages %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> 
+        {{message}}
+      </div>
+      {% endfor %} 
+    {% endif %} 
+  {% endwith %}
+</div>	
+<!-- Message Bar End -->
+
+
+
+  <div class="container">
+    <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" id="icon" alt="User Icon" height='100px' width = '200px'/>
+    </div>
+	
+
+    <!-- Login Form -->
+    <form action = "/render_login" method = "POST">
+      <input type="text" id="login" class="fadeIn second" name="login" placeholder="User ID">
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
+      <input type="submit" class="fadeIn fifth" value="Log In" onclick="encrypt()">
+    </form>
+
+  
+
+  </div>
+</div>
+  </div>
+
+  <!-- Import Bootstrap JavaScript here -->
+  
+  <script>
+	function encrypt()
+	{
+		user_ele = document.getElementById("login")
+		pass_ele = document.getElementById("password")
+		user_value = user_ele.value
+		pass_value = pass_ele.value
+		salted_pass = pass_value
+		encrypted_pass = md5(salted_pass);
+		pass_ele.value = encrypted_pass
+	}
+  </script>
+
+</body>
+
+</html>

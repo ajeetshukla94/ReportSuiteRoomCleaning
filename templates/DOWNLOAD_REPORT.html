@@ -1,0 +1,86 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>PIN POINT ENGINEERS</title>
+	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/styles.css">
+	<script src="{{ url_for('static', filename='js/template.js') }}"></script>
+	<script src="static/js/jquery-3.4.1.min.js"></script>	
+	<script defer src="static/js/script1.js"></script>
+	<script type=module defer src="static/js/mainLayout.js"></script>
+	<script src="static/js/nav_handler.js"></script>
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+</head>
+
+<body>
+<my-header></my-header>
+	<!-- Overlay Start -->
+	
+	  <!-- Overlay End -->
+
+<!-- FRAME SECTION START -->
+	<div id="frame_container">
+		<div id="frame_container">
+		 <div id="overlay">
+			  <div class="loader_container">
+				<div class="loader"></div>
+				<h3 id="overlayText">  </h3>
+			  </div>
+			</div>
+		<h5 id = "container_header">DOWNLOAD REPORT</h5>
+		<div id="data_frame">
+			<div class="frame">
+				<div class="sections">
+					<table class="code_tbl table-striped table-bordered">
+						<tr>
+							<th>User Name</th>	
+							<th>Start Date</th>
+							<th>End Date</th>	
+						
+						</tr>	
+						<tr>						
+							<td>
+								<select class="textfield" name="USERNAME" id="USERNAME" style="width:100%">
+								<option value="ALL" selected>ALL</option>
+								{% for username in usernameList %}
+									<option value="{{username}}">{{username}}</option>
+								{% endfor %}					
+								</select>
+							</td>
+							<td><input type="date" name="startdate" id="startdate" placeholder="dd/mm/yyyy"  ></td>
+							<td><input type="date" name="enddate" id="enddate" placeholder="dd/mm/yyyy" ></td>						
+						<td>
+							<button id="submit_button" type="submit" class="btn btn-sm btn-success col-sm-12" style="width:100%" onclick="view_report_log()">VIEW REPORT</button>																	
+						</td>
+						</tr>
+					</table>	
+					<hr size="10">
+					
+					
+					<table class="code_tbl table-striped table-bordered" id="ReportTable" name="ReportTable">
+							
+					</table>
+					<div id="action_row">
+						<button id="DownlodReportbtn" type="DownlodReportbtn" class="btn btn-sm btn-success col-sm-4" onclick="DownlodReport()">Downlod Report</button>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+		<hr size="10">
+	</div>
+
+<my-footer></my-footer>
+<script>
+$( document ).ready(function() {
+		var role = "{{ role }}";
+		handle_nav_bar(role);
+				$('#DownlodReportbtn').hide();
+	});
+</script>
+</body>
+
+</html>

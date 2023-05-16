@@ -1,0 +1,82 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>PIN POINT ENGINEERS</title>
+	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/styles.css">
+	<script src="static/js/jquery-3.4.1.min.js"></script>	
+	<script defer src="static/js/script1.js"></script>
+	<script type=module defer src="static/js/mainLayout.js"></script>
+	<script src="static/js/nav_handler.js"></script>
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+</head>
+
+<body>
+<my-header></my-header>
+
+
+<!-- FRAME SECTION START -->
+	<div id="frame_container">
+		<h5 id = "container_header">UPDATE USER DETAILS</h5>
+		<div id="data_frame">
+			<div class="frame">
+				<div class="sections">
+					<table class="code_tbl table-striped table-bordered">
+						<tr>
+						    <th>USERNAME</th>		
+							<th>ACTION</th>								
+						</tr>	
+						<tr>						
+							<td>
+								<select class="textfield" name="USERNAME" id="USERNAME" style="width:100%">
+								<option value="" selected>SELECT USERNAME</option>
+								{% for username in usernameList %}
+									<option value="{{username}}">{{username}}</option>
+								{% endfor %}					
+								</select>
+							</td>
+							
+						<td>
+							<button id="submit_button" type="submit" class="btn btn-sm btn-success col-sm-6" style="width:100%" onclick="view_user_details()">VIEW USER DETAILS</button>
+							<button id="submit_button" type="submit" class="btn btn-sm btn-danger col-sm-6" style="width:100%" onclick="delete_user_details()">DELETE USER </button>
+						</td>
+						</tr>
+					</table>	
+					<hr size="10">
+					
+					
+					<table class="code_tbl table-striped table-bordered" id="USERTABLE" name="USERTABLE">
+						<tr>
+						    <th>Role</th>
+							<th>Company Name</th>
+						    <th>Username</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email ID</th>	
+							<th>Status</th>							
+						</tr>	
+					</table>
+					<br>
+				</div>
+				
+				
+			</div>
+		</div>
+		<hr size="10">
+		<div id="action_row">
+			<button id="user_details_button" name="user_details_button" type="submit" class="btn btn-sm btn-success col-sm-2" onclick="update_user_details()">Update User Details</button>
+		</div>
+	</div>
+
+<my-footer></my-footer>
+<script>
+$( document ).ready(function() {
+		var role = "{{ role }}";
+		handle_nav_bar(role);
+	});
+</script>
+</body>
+
+</html>
