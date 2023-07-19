@@ -24,7 +24,7 @@ config = {
   'host':"pinpointserver.mysql.database.azure.com",
   'port':"3306",
   'user':"arissdb",
-  'password':"Ashijyoti@12",
+  'password':"ppedbpass@12",
   'db':'ROOMCLEANINGDB'
 }
 
