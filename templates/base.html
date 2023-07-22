@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Admin dashboard</title>
+
+    <!-- GOOGLE WEB FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap core CSS-->
+    <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Main styles -->
+    <link href="../static/css/styles.css" rel="stylesheet" />
+    <!-- Icon fonts-->
+    <link
+      href="../static/font-awesome/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-default fixed-top"
+      id="mainNav"
+    >
+      <a class="navbar-brand" href="#"
+        ><img
+          src="../static/images/logo-wbg.png"
+          alt=""
+          width="150"
+          height="36"
+      /></a>
+      <button
+        class="navbar-toggler navbar-toggler-right"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarResponsive"
+        aria-controls="navbarResponsive"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fa fa-solid fa-bars" style="color: #776ea5"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+          <li
+            class="nav-item"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="My listings"
+          >
+            <a
+              class="nav-link nav-link-collapse collapsed"
+              data-toggle="collapse"
+              href="#collapseMylistings1"
+            >
+              <i class="fa fa-fw fa-list"></i>
+              <span class="nav-link-text">Admin Panel</span>
+            </a>
+            <ul class="sidenav-second-level collapse" id="collapseMylistings1">
+              <li>
+                <a href="/add_user_page">Add User</a>
+              </li>
+              <li>
+                <a href="/update_user_details_page">Update User Details</a>
+              </li>
+            </ul>
+          </li>
+          <li
+            class="nav-item"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="My listings"
+          >
+            <az
+              class="nav-link nav-link-collapse collapsed"
+              data-toggle="collapse"
+              href="#collapseMylistings2"
+            >
+              <i class="fa fa-fw fa-user"></i>
+              <span class="nav-link-text">Room Cleaning</span>
+            </az>
+            <ul class="sidenav-second-level collapse" id="collapseMylistings2">
+              <li>
+                <a href="/cleaning_room">Cleaning Room</a>
+              </li>
+              <li>
+                <a href="/UpdateProductList">Update Product List</a>
+              </li>
+              <li>
+                <a href="/download_report">Download Report</a>
+              </li>
+              <li>
+                <a href="/render_elogbook">Product Log</a>
+              </li>
+            </ul>
+          </li>
+          <li
+            class="nav-item"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="My listings"
+          >
+            <a
+              class="nav-link nav-link-collapse collapsed"
+              data-toggle="collapse"
+              href="#collapseMylistings3"
+            >
+              <i class="fa fa-fw fa-group"></i>
+              <span class="nav-link-text">Profile</span>
+            </a>
+            <ul class="sidenav-second-level collapse" id="collapseMylistings3">
+              <li>
+                <a href="/update_self_profile_page">Profile</a>
+              </li>
+              <li>
+                <a href="/logout">Logout</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- /Navigation-->
+    <div class="content-wrapper">
+      <div class="container-fluid">{% block content %} {% endblock %}</div>
+      <!-- /.container-fluid-->
+    </div>
+    <!-- /.container-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © Company 2023</small>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function ($) {
+        "use strict";
+        $('.navbar-sidenav [data-toggle="tooltip"]').tooltip({
+          boundary: "window",
+          template:
+            '<div class="tooltip navbar-sidenav-tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>',
+        });
+
+        $("#sidenavToggler").on("click", function (e) {
+          e.preventDefault();
+          $("body").toggleClass("sidenav-toggled");
+          $(".navbar-sidenav .nav-link-collapse").addClass("collapsed");
+          $(
+            ".navbar-sidenav .sidenav-second-level, .navbar-sidenav .sidenav-third-level"
+          ).removeClass("show");
+        });
+
+        $(".navbar-sidenav .nav-link-collapse").on("click", function (e) {
+          e.preventDefault();
+          $("body").removeClass("sidenav-toggled");
+        });
+
+        $(
+          "body.fixed-nav .navbar-sidenav, body.fixed-nav .sidenav-toggler, body.fixed-nav .navbar-collapse"
+        ).on("mousewheel DOMMouseScroll", function (e) {
+          var e0 = e.originalEvent,
+            delta = e0.wheelDelta || -e0.detail;
+          this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+          e.preventDefault();
+        });
+
+        // Inline popups
+        $(".inline-popups").each(function () {
+          $(this).magnificPopup({
+            delegate: "a",
+            removalDelay: 500,
+            callbacks: {
+              beforeOpen: function () {
+                this.st.mainClass = this.st.el.attr("data-effect");
+              },
+            },
+            midClick: true,
+          });
+        });
+      })(jQuery);
+    </script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../static/jquery/jquery.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

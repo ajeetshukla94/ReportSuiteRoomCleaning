@@ -1,67 +1,86 @@
-<html>
+{% extends "base.html" %} {% block content %}
+<script defer src="/static/js/script1.js"></script>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>PIN POINT ENGINEERS</title>
-	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="static/css/styles.css">
-	<script src="static/js/jquery-3.4.1.min.js"></script>	
-	<script defer src="static/js/script1.js"></script>
-	<script type=module defer src="static/js/mainLayout.js"></script>
-	<script src="static/js/nav_handler.js"></script>
-	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-</head>
+<div id="frame_container">
+  <h5 class="section-header">Profile Details</h5>
+  <div id="data_frame">
+    <div class="frame">
+      <div class="sections">
+        <div class="form-group">
+          <label class="form-label col-form-label">Username</label>
+          <input
+            type="text"
+            name="company_address"
+            id="USERNAME"
+            value="{{ user_detail[0].USERNAME }}"
+            class="text-field"
+            disabled
+          />
+        </div>
 
-<body>
-<my-header></my-header>
+        <div class="form-group">
+          <label class="form-label col-form-label">First Name</label>
+          <input
+            type="text"
+            name="company_address"
+            id="FNAME"
+            value="{{ user_detail[0].FNAME }}"
+            class="text-field"
+          />
+        </div>
 
+        <div class="form-group">
+          <label class="form-label col-form-label">Last Name</label>
+          <input
+            type="text"
+            name="company_address"
+            id="LNAME"
+            value="{{ user_detail[0].LNAME }}"
+            class="text-field"
+          />
+        </div>
 
-<!-- FRAME SECTION START -->
-	<div id="frame_container">
-		<h5 id = "container_header">Profile Details</h5>
-		<div id="data_frame">
-			<div class="frame">
-				<div class="sections">
-				
-				<label class="form-label col-form-label">USERNAME</label></td>
-				<input type="text" name="company_address" id="USERNAME" value="{{ user_detail[0].USERNAME }}" class="textfield" disabled></td>
-				
-				<label class="form-label col-form-label">FIRST NAME</label></td>
-				<input type="text" name="company_address" id="FNAME" value="{{ user_detail[0].FNAME }}" class="textfield" ></td>
-				
-				
-				<label class="form-label col-form-label">LAST NAME</label></td>
-				<input type="text" name="company_address" id="LNAME" value="{{ user_detail[0].LNAME }}" class="textfield" ></td>
-				
-				
-				<label class="form-label col-form-label">EMAILID</label></td>
-				<input type="text" name="company_address" id="EMAILID" value="{{ user_detail[0].EMAILID }}" class="textfield" ></td>
-				
-				
-				<label class="form-label col-form-label">PASSWORD</label></td>
-				<input type="password" name="company_address" id="PASSWORD"  class="textfield" ></td>
-				
-				
-					
-				</div>
-				
-				
-			</div>
-		</div>
-		<hr size="10">
-		<div id="action_row">
-			<button id="user_details_button" name="user_details_button" type="submit" class="btn btn-sm btn-success col-sm-2" onclick="update_profile_details()">Update User Details</button>
-		</div>
-	</div>
+        <div class="form-group">
+          <label class="form-label col-form-label">Email Id</label>
+          <input
+            type="text"
+            name="company_address"
+            id="EMAILID"
+            value="{{ user_detail[0].EMAILID }}"
+            class="text-field"
+          />
+        </div>
 
-<my-footer></my-footer>
+        <div class="form-group">
+          <label class="form-label col-form-label">Password</label>
+          <input
+            type="password"
+            name="company_address"
+            id="PASSWORD"
+            class="text-field"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr size="10" />
+  <div id="action_row">
+    <button
+      id="user_details_button"
+      name="user_details_button"
+      type="submit"
+      class="btn col-sm-2 add_user-btn"
+      onclick="update_profile_details()"
+    >
+      Update User Details
+    </button>
+  </div>
+</div>
+
 <script>
-$( document ).ready(function() {
-		var role = "{{ role }}";
-		handle_nav_bar(role);
-	});
+  $(document).ready(function () {
+    var role = "{{ role }}";
+    handle_nav_bar(role);
+  });
 </script>
-</body>
-
-</html>
+{% endblock %}

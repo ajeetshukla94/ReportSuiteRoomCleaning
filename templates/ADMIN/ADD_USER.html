@@ -1,85 +1,104 @@
-<html>
+{% extends "base.html" %} {% block content %}
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>PIN POINT ENGINEERS</title>
-	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="static/css/styles.css">
-	<script src="static/js/jquery-3.4.1.min.js"></script>	
-	<script defer src="static/js/script1.js"></script>
-	<script type=module defer src="static/js/mainLayout.js"></script>
-	<script src="static/js/nav_handler.js"></script>
-	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-</head>
-
-<body>
-
-<script>
-
-
-
-
-</script>
-
-
-
-<my-header></my-header>
-
+<script defer src="/static/js/script1.js"></script>
 
 <!-- FRAME SECTION START -->
-	<div id="frame_container">
-		<h5 id = "container_header">Add NEW USER</h5>
-		<div id="data_frame">
-			<div class="frame">
-				<div class="sections">
-					<table class="code_tbl table-striped table-bordered">
-						<tr>
-							<th>Role</th>
-							
-							<th>First Name</th>		
-							<th>Last Name</th>													
-							<th>Password</th>
-							<th>Email ID</th>														
-						</tr>
-						<tr>		
-							<td>
-							<select class="textfield" name="Role" id="Role" style="width:100%">	
-							<option value="admin">Admin</option>
-							<option value="analyst">Service</option>	
-							</select>
-							</td>
-							
-							
-							<td><input type="text" name="fname" value="" class="textfield"></td>
-							<td><input type="text" name="lname" value="" class="textfield"></td>
-							<td><input type="password" name="pwd" value="" class="textfield"></td>
-							<td><input type="text" name="email" value="pinpointengineers@hotmail.com" class="textfield"></td>
-							
-							
-							<td class="del_row"><img src = "static/images/delete.png" class="del_row_img" onclick="delete_row(this)"></td>
-						</tr>
-					</table>
-					<div class="add_row_button">
-					<button id="add_row1" type="button" class="btn btn-sm btn-primary col-sm-2 btn_row" onclick="add_row(this)">Add User</button>
-					</div>
-					<hr size="10">
-				</div>
-			</div>
-		</div>
-		<hr size="10">
-		<div id="action_row">
-			<button id="submit_button" type="submit" class="btn btn-sm btn-success col-sm-2" onclick="add_users()">Add User</button>
-		</div>
-	</div>
+<h5 class="section-header">Add New User</h5>
+<div class="data-frame">
+  <div class="frame">
+    <div class="sections">
+      <table class="code-table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Password</th>
+            <th>Email ID</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <select
+                class="text-field"
+                name="Role"
+                id="Role"
+                style="width: 100%"
+              >
+                <option value="admin">Admin</option>
+                <option value="analyst">Service</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" name="fname" value="" class="text-field" />
+            </td>
+            <td>
+              <input type="text" name="lname" value="" class="text-field" />
+            </td>
+            <td>
+              <input type="password" name="pwd" value="" class="text-field" />
+            </td>
+            <td>
+              <input
+                type="text"
+                name="email"
+                value="pinpointengineers@hotmail.com"
+                class="text-field"
+              />
+            </td>
+            <td class="del-row">
+              <span class="delete-row" onclick="delete_row(this)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="0.625em"
+                  viewBox="0 0 512 512"
+                >
+                  <style>
+                    svg {
+                      fill: #ff0000;
+                    }
+                  </style>
+                  <path
+                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM184 232H328c13.3 0 24 10.7 24 24s-10.7 24-24 24H184c-13.3 0-24-10.7-24-24s10.7-24 24-24z"
+                  />
+                </svg>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="add-row-button">
+        <button
+          id="add_row1"
+          type="button"
+          class="btn col-sm-2 btn-row"
+          onclick="add_row(this)"
+        >
+          Add Row
+        </button>
+      </div>
+      <hr size="10" />
+    </div>
+  </div>
+</div>
+<hr size="10" />
+<div id="action-row">
+  <button
+    id="submit_button"
+    type="submit"
+    class="btn col-sm-2 add_user-btn"
+    onclick="add_users()"
+  >
+    Add User
+  </button>
+</div>
 
-<my-footer></my-footer>
 <script>
-$( document ).ready(function() {
-		var role = "{{ role }}";
-		handle_nav_bar(role);
-	});
+  $(document).ready(function () {
+    var role = "{{ role }}";
+    handle_nav_bar(role);
+  });
 </script>
-</body>
-
-</html>
+{% endblock %}

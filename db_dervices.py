@@ -24,7 +24,7 @@ config = {
   'host':"pinpointserver.mysql.database.azure.com",
   'port':"3306",
   'user':"arissdb",
-  'password':"Ashijyoti@12",
+  'password':"ppedbpass@12",
   'db':'ROOMCLEANINGDB'
 }
 
@@ -42,9 +42,6 @@ class DBO:
         except Exception as e:
             pass
            
-            
-        
-        
     def create_user(self, username,fname,lname, role, password,emailid):
         try:             
             query = """INSERT INTO ROOMCLEANINGDB.USERS ( USERNAME ,FNAME,LNAME ,ROLE, PASSWORD,EMAILID,STATUS,photo_blob)

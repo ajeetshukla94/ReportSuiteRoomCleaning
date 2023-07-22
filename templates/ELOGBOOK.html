@@ -1,103 +1,110 @@
-<html>
+{% extends "base.html" %} {% block content %}
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>PIN POINT ENGINEERS</title>
-	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="static/css/styles.css">
-	<script src="static/js/jquery-3.4.1.min.js"></script>	
-	<script defer src="static/js/script1.js"></script>
-	<script type=module defer src="static/js/mainLayout.js"></script>
-	<script src="static/js/nav_handler.js"></script>
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-</head>
-      <script>
-      $('.sub-menu ul').hide();
-$(".sub-menu a").click(function () {
-	$(this).parent(".sub-menu").children("ul").slideToggle("100");
-	$(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
-});
-      </script>
-
-<body>
-<my-header></my-header>
-
+<script defer src="/static/js/script1.js"></script>
+<script defer src="/static/js/template.js"></script>
+<script>
+  $(".sub-menu ul").hide();
+  $(".sub-menu a").click(function () {
+    $(this).parent(".sub-menu").children("ul").slideToggle("100");
+    $(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+  });
+</script>
 
 <!-- FRAME SECTION START -->
-	<div id="frame_container">
-		<h5 id = "container_header">Product LOG</h5>
-		<div id="data_frame">
-			<div class="frame">
-				<div class="sections">
-					<table class="code_tbl table-striped table-bordered">
-						<tr>
-							<th>USER ID</th>	
-							<th>STATUS</th>
-							<th>Start Date</th>
-							<th>End Date</th>
-							<th>ACTION</th>	
-						
-						</tr>	
-						<tr>						
-							<td>
-								<select class="textfield" name="user_id" id="user_id" style="width:100%">
-								<option value="ALL" selected>ALL</option>
-								{% for username in usernameList %}
-									<option value="{{username}}">{{username}}</option>
-								{% endfor %}					
-								</select>
-							</td>	
-									
-						   	
-							
-							<td>
-								<select class="textfield" name="STATUS" id="STATUS" style="width:100%">
-								<option value="ALL" selected>ALL</option>
-								<option value="ACTIVE">ACTIVE</option>
-								<option value="INACTIVE">INACTIVE</option>								
-								</select>
-							</td>
-							
-							
-							<td><input type="date" name="startdate" id="startdate" placeholder="dd/mm/yyyy"  ></td>
-							<td><input type="date" name="enddate" id="enddate" placeholder="dd/mm/yyyy" ></td>
-						<td>
-							<button id="submit_button" type="submit" class="btn btn-sm btn-success col-sm-6" style="width:100%" onclick="view_logbook()">VIEW-LOG</button>																	
-						</td>
-						</tr>
-					</table>	
-					<hr size="10">
-					
-					
-					<table class="code_tbl table-striped table-bordered" id="LOGTABLE" name="LOGTABLE">
-						<tr>
-						    
-							<th>VERSION</th>
-							<th>STATUS</th>
-							<th>UPDATED BY</th>
-							<th>VIEW DATA</th>
-						</tr>	
-					</table>
-					<br>
-					<table class="code_tbl table-striped table-bordered" id="ReportTable" name="ReportTable">
-					</table>
-					
-				</div>
-				
-				
-			</div>
-		</div>
-	</div>
+<div id="frame_container">
+  <h5 id="container_header">Product LOG</h5>
+  <div id="data_frame">
+    <div class="frame">
+      <div class="sections">
+        <table class="code-table table-striped table-bordered">
+          <tr>
+            <th>USER ID</th>
+            <th>STATUS</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>ACTION</th>
+          </tr>
+          <tr>
+            <td>
+              <select
+                class="text-field"
+                name="user_id"
+                id="user_id"
+                style="width: 100%"
+              >
+                <option value="ALL" selected>ALL</option>
+                {% for username in usernameList %}
+                <option value="{{username}}">{{username}}</option>
+                {% endfor %}
+              </select>
+            </td>
 
-<my-footer></my-footer>
+            <td>
+              <select
+                class="text-field"
+                name="STATUS"
+                id="STATUS"
+                style="width: 100%"
+              >
+                <option value="ALL" selected>ALL</option>
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
+              </select>
+            </td>
+
+            <td>
+              <input
+                type="date"
+                name="startdate"
+                id="startdate"
+                class="text-field"
+                placeholder="dd/mm/yyyy"
+              />
+            </td>
+            <td>
+              <input
+                type="date"
+                name="enddate"
+                id="enddate"
+                class="text-field"
+                placeholder="dd/mm/yyyy"
+              />
+            </td>
+            <td>
+              <button
+                id="submit_button"
+                type="submit"
+                class="btn btn-row col-sm-6 btn-view-log"
+                onclick="view_logbook()"
+              >
+                VIEW-LOG
+              </button>
+            </td>
+          </tr>
+        </table>
+        <hr size="10" />
+
+        <table
+          class="code-table table-striped table-bordered"
+          id="LOGTABLE"
+          name="LOGTABLE"
+        ></table>
+        <br />
+        <table
+          class="code-table table-striped table-bordered"
+          id="ReportTable"
+          name="ReportTable"
+        ></table>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-$( document ).ready(function() {
-		var role = "{{ role }}";
-		handle_nav_bar(role);
-	});
+  $(document).ready(function () {
+    var role = "{{ role }}";
+    handle_nav_bar(role);
+  });
 </script>
-</body>
 
-</html>
+{% endblock %}

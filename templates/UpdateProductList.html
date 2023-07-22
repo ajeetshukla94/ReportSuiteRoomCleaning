@@ -1,102 +1,180 @@
-<html>
+{% extends "base.html" %} {% block content %}
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>PIN POINT ENGINEERS</title>
-	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="static/css/styles.css">
-	<script src="{{ url_for('static', filename='staticjs/template.js') }}"></script>
-	<script src="static/js/jquery-3.4.1.min.js"></script>
-	
-	<script defer src="static/js/script1.js"></script>
-	<script type=module defer src="static/js/mainLayout.js"></script>
-	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-</head>
-
-<body>
-
-<script>
-
-
-
-</script>
-
-
-
-<my-header></my-header>
-
+<script defer src="/static/js/script1.js"></script>
+<script defer src="/static/js/template.js"></script>
 
 <!-- FRAME SECTION START -->
-	<div id="frame_container">
-	<!-- Overlay Start -->
-	  <div id="overlay">
-	  <div class="loader_container">
-		<div class="loader"></div>
-		<h3 id="overlayText">  </h3>
-	  </div>
-	</div>
-	  <!-- Overlay End -->
-		<h5 id = "container_header">Product Table</h5>
-		<div id="data_frame">
-			<div class="frame">
-				<div class="sections">
-					<table class="code_tbl table-striped table-bordered">
-						<tr>
-							<th>Product Name</th>	
-							<th>Generic Name</th>
-							<th>Form </th>
-							<th>API with strength</th>	
-							<th>Minimum Batch size NOS</th>
-							<th>Minimum Batch size MG</th>
-							<th>MRDD </th>
-							
-							<th>LRDD MG </th>
-							<th>LRDD NOS </th>
-							
-							<th>PDE VALUE </th>
-							<th>LD50 </th>
-							<th>NOEL  </th>
-							
-							
-						</tr>
-						{% for product in product_list %}
-						<tr>
-							<td><input type="text" name="Product_Name" class="textfield" value="{{product.Product_Name}}" ></td>	
-							<td><input type="text" name="Generic_Name" class="textfield" value="{{product.Generic_Name}}" ></td>
-							<td><input type="text" name="Form" class="textfield" value="{{product.Form}}" ></td>
+<div id="frame_container">
+  <h5 class="section-header">Product Table</h5>
+  <div class="data-frame">
+    <div class="frame">
+      <div class="sections">
+        <div class="table-responsive">
+          <table class="code-table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Generic Name</th>
+                <th>Form</th>
+                <th>API with Strength</th>
+                <th>Minimum Batch Size NOS</th>
+                <th>Minimum Batch Size MG</th>
+                <th>MRDD</th>
+                <th>LRDD MG</th>
+                <th>LRDD NOS</th>
+                <th>PDE Value</th>
+                <th>LD50</th>
+                <th>NOEL</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in product_list %}
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    name="Product_Name"
+                    class="text-field"
+                    value="{{product.Product_Name}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="Generic_Name"
+                    class="text-field"
+                    value="{{product.Generic_Name}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="Form"
+                    class="text-field"
+                    value="{{product.Form}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="API_with_strength"
+                    class="text-field"
+                    value="{{product.API_with_strength}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="Minimum_Batch_size_NOS"
+                    class="text-field"
+                    value="{{product.Minimum_Batch_size_NOS}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="Minimum_Batch_size_MG"
+                    class="text-field"
+                    value="{{product.Minimum_Batch_size_MG}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="MRDD"
+                    class="text-field"
+                    value="{{product.MRDD}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="LRDD_MG"
+                    class="text-field"
+                    value="{{product.LRDD_MG}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="LRDD_NOS"
+                    class="text-field"
+                    value="{{product.LRDD_NOS}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="PDE_VALUE"
+                    class="text-field"
+                    value="{{product.PDE_VALUE}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="LD50"
+                    class="text-field"
+                    value="{{product.LD50}}"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="NOEL"
+                    class="text-field"
+                    value="{{product.NOEL}}"
+                  />
+                </td>
+                <td class="del-row">
+                  <span class="delete-row" onclick="delete_row(this)">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="0.625em"
+                      viewBox="0 0 512 512"
+                    >
+                      <style>
+                        svg {
+                          fill: #ff0000;
+                        }
+                      </style>
+                      <path
+                        d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM184 232H328c13.3 0 24 10.7 24 24s-10.7 24-24 24H184c-13.3 0-24-10.7-24-24s10.7-24 24-24z"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="add-row-button">
+          <button
+            id="add_row1"
+            type="button"
+            class="btn col-sm-2 btn-row"
+            onclick="add_row(this)"
+          >
+            Add Row
+          </button>
+        </div>
+        <hr size="10" />
+      </div>
+    </div>
+  </div>
+  <hr size="10" />
+  <div id="action-row">
+    <button
+      id="submit_button"
+      type="submit"
+      class="btn col-sm-2 add_user-btn"
+      onclick="updateProductList()"
+    >
+      Submit
+    </button>
+  </div>
+</div>
 
-
-							<td><input type="text" name="API_with_strength" class="textfield" value="{{product.API_with_strength}}" ></td>	
-							<td><input type="text" name="Minimum_Batch_size_NOS" class="textfield" value="{{product.Minimum_Batch_size_NOS}}" ></td>
-							<td><input type="text" name="Minimum_Batch_size_MG" class="textfield" value="{{product.Minimum_Batch_size_MG}}" ></td>
-							<td><input type="text" name="MRDD" class="textfield" value="{{product.MRDD}}" ></td>	
-							
-							<td><input type="text" name="LRDD_MG" class="textfield" value="{{product.LRDD_MG}}" ></td>
-							<td><input type="text" name="LRDD_NOS" class="textfield" value="{{product.LRDD_NOS}}" ></td>
-							
-							<td><input type="text" name="PDE_VALUE" class="textfield" value="{{product.PDE_VALUE}}" ></td>
-							
-							<td><input type="text" name="LD50" class="textfield" value="{{product.LD50}}" ></td>	
-							<td><input type="text" name="NOEL" class="textfield" value="{{product.NOEL}}" ></td>							
-							<td class="del_row"><img src = "static/images/delete.png" class="del_row_img" onclick="delete_row(this)"></td>
-						</tr>
-						{% endfor %}
-					</table>
-					<div class="add_row_button">
-					<button id="add_row1" type="button" class="btn btn-sm btn-primary col-sm-2 btn_row" onclick="add_row(this)">Add Row</button>
-					</div>
-					<hr size="10">
-				</div>
-			</div>
-		</div>
-		<hr size="10">
-		<div id="action_row">
-			<button id="submit_button" type="submit" class="btn btn-sm btn-success col-sm-2" onclick="updateProductList()">Submit</button>
-		</div>
-	</div>
-
-<my-footer></my-footer>
-</body>
-
-</html>
+{% endblock %}
