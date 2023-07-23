@@ -56,9 +56,9 @@ body.on("click", "span.remove-col", function () {
 });
 
 $(document).ready(function () {
-  $("body").append($('<script src="static/js/md5.min.js"></script>'));
+  $("body").append($('<script src="/static/js/md5.min.js"></script>'));
   $("body").append(
-    $('<script type=module defer src="static/js/jquery-3.4.1.min.js"></script>')
+    $('<script type=module defer src="/static/js/jquery-3.4.1.min.js"></script>')
   );
 });
 
@@ -159,7 +159,7 @@ function view_user_details() {
       $("#USERTABLE").empty();
       var header =
         "<tr>\
-				 <th>Role</th><th>Company Name</th><th>Username</th><th>First Name</th>\
+				 <th>Role</th><th>Username</th><th>First Name</th>\
 				 <th>Last Name</th><th>Email ID</th><th>Status</th></tr>";
       $("#USERTABLE").append(header);
 
@@ -224,6 +224,7 @@ function delete_user_details() {
     },
     function (result) {
       alert(result.error);
+      location.reload();
     }
   );
 }
@@ -326,14 +327,12 @@ function updateProductList() {
 
   full_data["observation"] = final_table_data;
 
-  on();
   $.getJSON(
     "/submit_UpdateProductList",
     {
       params_data: JSON.stringify(full_data),
     },
     function (result) {
-      off();
       alert("Product List Updated");
     }
   );
@@ -358,14 +357,14 @@ function submit_Report() {
       }
     }
   }
-  on();
+
   $.getJSON(
     "/submit_cleaning_room_report",
     {
       params_data: JSON.stringify(data),
     },
     function (result) {
-      off();
+
       var link = document.createElement("a");
       link.href = result.file_path;
       link.download = result.file_name;

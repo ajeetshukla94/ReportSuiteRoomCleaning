@@ -3,40 +3,41 @@
 <script defer src="/static/js/script1.js"></script>
 <script defer src="/static/js/template.js"></script>
 
-<script>
-  var body = $("body");
-  body.on("click", "button.add-col", function () {
-    var table = $(this).closest("div.table-content").find("table"),
-      thead = table.find("thead"),
-      lastTheadRow = thead.find("tr:last-child"),
-      tbody = table.find("tbody");
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-    $("<th>", {
-      html: '<div style="display: flex;">\
+<script >
+var body = $('body');
+body.on('click', 'button.add-col', function() 
+{
+  var table = $(this).closest('div.table-content').find('table'),
+  thead = table.find('thead'),
+  lastTheadRow = thead.find('tr:last-child'),
+  tbody = table.find('tbody');
+
+ 
+$('<th>', {'html': '<div style="display: flex;">\
             <select class="form-control" style="padding:5px;">\
 			  <option value="" selected>Select an Product</option>\
 			  {% for product in product_list %}\
 			  <option value="{{product}}">{{product}}</option>\
 			  {% endfor %}					\
 		    </select>	\
-			<span class="pull-left remove remove-col" style="padding:8px;">x</span>\
-		  </div>',
-    }).appendTo(lastTheadRow);
-    $("<td>", { html: '<input type="text"  value=""/>' }).insertAfter(
-      "td:last-child"
-    );
-  });
+			<span class="input-group-text remove remove-col">x</span>\
+		  </div>'
+  }).appendTo(lastTheadRow);
+  $('<td>', {'html': '<input type="text"  value="" class="form-control"/>'
+  }).insertAfter('td:last-child');
+});
 </script>
-
 <div id="frame_container">
   <h5 class="section-header">Add New Row</h5>
   <div class="data-frame">
     <div class="frame">
-      <div class="sections">
+      <div class="table-content">
         <button class="btn btn-link add-row add-row-column">Add Row</button>
         <button class="btn btn-link add-col add-row-column">Add Column</button>
         <div class="table-responsive">
-          <table class="code_tbl table-bordered">
+          <table class="code_table table-bordered">
             <thead>
               <tr>
                 <th></th>
@@ -98,7 +99,7 @@
     <button
       id="submit_button"
       type="submit"
-      class="btn add_user-btn col-sm-2"
+      class="btn btn-sm btn-success add_user-btn col-sm-2"
       onclick="submit_Report()"
     >
       Submit

@@ -1,7 +1,10 @@
 {% extends "base.html" %} {% block content %}
 
-<script defer src="/static/js/script1.js"></script>
-<script defer src="/static/js/template.js"></script>
+<script defer src="static/js/script1.js"></script>
+<script defer src="static/js/template.js"></script>
+
+
+
 
 <!-- FRAME SECTION START -->
 <div id="frame_container">
@@ -10,7 +13,7 @@
     <div class="frame">
       <div class="sections">
         <div class="table-responsive">
-          <table class="code-table table-bordered table-striped">
+          <table class="code_table table-bordered table-striped">
             <thead>
               <tr>
                 <th>Product Name</th>
@@ -149,18 +152,12 @@
               {% endfor %}
             </tbody>
           </table>
-        </div>
+        
         <div class="add-row-button">
-          <button
-            id="add_row1"
-            type="button"
-            class="btn col-sm-2 btn-row"
-            onclick="add_row(this)"
-          >
-            Add Row
-          </button>
+          <button  id="add_row1"  type="button"  class="btn col-sm-2 add-row btn-row" onclick="add_row(this)">Add Row</button>
         </div>
         <hr size="10" />
+	</div>
       </div>
     </div>
   </div>

@@ -1,13 +1,13 @@
 {% extends "base.html" %} {% block content %}
 
 <script defer src="/static/js/script1.js"></script>
+<script defer src="/static/js/template.js"></script>
 
-<!-- FRAME SECTION START -->
 <h5 class="section-header">Add New User</h5>
 <div class="data-frame">
   <div class="frame">
     <div class="sections">
-      <table class="code-table table-striped table-bordered">
+      <table class="code_table table-striped table-bordered">
         <thead>
           <tr>
             <th>Role</th>
@@ -88,7 +88,7 @@
   <button
     id="submit_button"
     type="submit"
-    class="btn col-sm-2 add_user-btn"
+    class="btn btn-sm btn-success col-sm-2 add_user-btn"
     onclick="add_users()"
   >
     Add User
