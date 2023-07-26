@@ -154,13 +154,43 @@ class DBO:
                                             'STATUS'  , 'photo_blob' ])
             return user_frame[['USERNAME','FNAME','LNAME','ROLE','PASSWORD','EMAILID','STATUS']]
 ###########################################################End of user query ##################################################################
+    
+    def get_equioment_details(self):
+        stmt = """SELECT Equipment_Name from ROOMCLEANINGDB.Equioment_Details """
+        conn = mysql.connector.connect(**config)
+        cursor = conn.cursor()
+        cursor.execute(stmt)
+        equipmet_list = []
+        for row in cursor:
+            equipmet_list.append(row[0])
+        return equipmet_list
+        
+    def insert_equipment_details(self,temp_Df):
+        try:    
+            query = """truncate ROOMCLEANINGDB.Equioment_Details """                                            
+            conn = mysql.connector.connect(**config)
+            cursor = conn.cursor()                
+            cursor.execute(query)
+            conn.commit()         
+            for row in temp_Df.itertuples():     
+                query = """INSERT INTO ROOMCLEANINGDB.Equioment_Details 
+                       (Equipment_Name ) VALUES ('{}')""".format(row[1])                                            
+                conn = mysql.connector.connect(**config)
+                cursor = conn.cursor()                
+                cursor.execute(query)
+                conn.commit()            
+        except Exception as e:
+            print(e)
+            return e      
+    
     def insert_product_details(self,temp_Df,userID,userName):
         try:
+            VERSION = 1
             query = "SELECT max(version) from ROOMCLEANINGDB.product_Details"
             conn = mysql.connector.connect(**config)
             cursor = conn.cursor()
             cursor.execute(query)
-            VERSION = 1
+            
             for row in cursor:
                 if row[0]==None:
                     VERSION=1
@@ -172,10 +202,7 @@ class DBO:
             cursor = conn.cursor()
             cursor.execute(query)
             conn.commit() 
-            for row in temp_Df.itertuples():                             
-                ts = time.time()
-                update_time = datetime.datetime.now(tz=gettz('Asia/Kolkata'))
-                update_time = str(update_time.strftime('%d/%m/%Y %H:%M:%S')).split(".")[0]               
+            for row in temp_Df.itertuples():                                          
                 query = """INSERT INTO ROOMCLEANINGDB.product_Details 
                        (Product_Name ,Generic_Name ,
                          Form ,API_with_strength , 
@@ -218,10 +245,16 @@ class DBO:
         product_list = []
         for row in cursor:
             product_list.append(list(row))
+        if len(product_list)==0:
+            product_list.append(['Product_Name' ,'Generic_Name' ,
+                         'Form' ,'API_with_strength' ,'Minimum_Batch_size_NOS','Minimum_Batch_size_MG' ,
+                         'MRDD','LRDD_MG','LRDD_NOS','PDE_VALUE','LD50' ,'NOEL'])
         product_frame = pd.DataFrame(product_list,columns = ['Product_Name' ,'Generic_Name' ,
                          'Form' ,'API_with_strength' ,'Minimum_Batch_size_NOS','Minimum_Batch_size_MG' ,
                          'MRDD','LRDD_MG','LRDD_NOS','PDE_VALUE','LD50' ,'NOEL'])
         return product_frame
+        
+       
         
     def get_product_details_by_version(self,version):
         stmt = """SELECT Product_Name ,Generic_Name ,

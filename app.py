@@ -37,12 +37,6 @@ print("MYDIR", MYDIR)
 dbo = DBO()
 
 app.config['UPLOAD_FOLDER_INPUTDATA'] = "static/inputData/"
-equipmet_list = ['Dispensing Booth',
-                 'Dispensing Scoop ( Small)', 'Dispensing Scoop (Large)',
-                 'Spatula', 'Spatula', 'Manufacturing Scoop',
-                 'Blender Bin (350 liter)', 'Blender Bin (25 liter)',
-                 'Vibro Sifter II', 'sampling rod', 'sampling rod'
-                 ]
 
 sent_mail = False
 server = 'smtp-mail.outlook.com'
@@ -219,14 +213,32 @@ def update_self_profile_page():
     return make_response(render_template('LOGINPAGE/login.html'), 200)
 ############################### END Admin Panel   #####################################################################
 
+@app.route("/UpdateEquipmentlist")
+def UpdateEquipmentlist():
+    equipmet_list  =  dbo.get_equioment_details()
+    return make_response(render_template('UpdateEquipmentlist.html', equipmet_list=equipmet_list), 200)
+    
+    
+    
+@app.route("/submit_equipmentList")
+def submit_equipmentList():
+    session_var = session['user']
+    role = session_var["role"]
+    userName = session_var['username']
+    data = request.args.get('params_data')
+    data = json.loads(data)
+    observation = data['observation']
+    temp_df = pd.DataFrame.from_dict(observation, orient='index')
+    dbo.insert_equipment_details(temp_df)
+    d = {"error": "none", }
+    return json.dumps(d)
 
 @app.route("/UpdateProductList")
 def UpdateProductList():
     product_frame = dbo.get_product_details()
     product_list = product_frame.to_dict('records')
     return make_response(render_template('UpdateProductList.html', product_list=product_list), 200)
-
-
+    
 @app.route("/submit_UpdateProductList")
 def submit_UpdateProductList():
     session_var = session['user']
@@ -245,8 +257,9 @@ def submit_UpdateProductList():
 
 @app.route("/cleaning_room")
 def cleaning_room():
-    product_frame = dbo.get_product_details()
-    product_list = product_frame.Product_Name.unique().tolist()
+    product_frame  = dbo.get_product_details()
+    product_list   = product_frame.Product_Name.unique().tolist()
+    equipmet_list  =  dbo.get_equioment_details()
     return make_response(render_template('cleaning_room.html', equipmet_list=equipmet_list, product_list=product_list), 200)
 
 

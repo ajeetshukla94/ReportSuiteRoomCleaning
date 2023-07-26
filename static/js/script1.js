@@ -75,10 +75,10 @@ function add_row(elem) {
 }
 
 function delete_row(elem) {
-  if (elem.parentElement.parentElement.parentElement.rows.length > 2) {
+  if (elem.parentElement.parentElement.parentElement.rows.length > 1) {
     elem.parentElement.parentElement.remove();
   } else {
-    alert("First row can not be deleted!");
+    alert("All row can not be deleted!");
   }
 }
 
@@ -301,6 +301,31 @@ function update_profile_details() {
     }
   );
 }
+function updateEquipmentList() {
+  code_table = document.getElementsByClassName("code_table")[0];
+  code_rows = code_table.rows;
+  var final_table_data = {};
+  var full_data = {};
+  for (var j = 1; j < code_rows.length; j++) {
+    tds = code_rows[j].children;
+    var table_data = {};
+    table_data["Equipment_Name"] = tds[0].firstElementChild.value;
+    final_table_data[j] = table_data;
+  }
+
+  full_data["observation"] = final_table_data;
+
+  $.getJSON(
+    "/submit_equipmentList",
+    {
+      params_data: JSON.stringify(full_data),
+    },
+    function (result) {
+      alert("Equipment List Updated");
+    }
+  );
+}
+
 
 function updateProductList() {
   code_table = document.getElementsByClassName("code_table")[0];
@@ -465,19 +490,33 @@ function edit_report(version_number) {
       $("#ReportTable").empty();
       $("#ReportTable").append(header);
       for (var j = 0; j < report_list.length; j++) {
+		  var Product_Name    = report_list[j].Product_Name;
+		  Product_Name    = Product_Name.split(' ').join('\xa0');
+		  
+		  
+		  var Generic_Name    = report_list[j].Generic_Name;
+		  Generic_Name    = Generic_Name.split(' ').join('\xa0');
+		  
+		  var Form    = report_list[j].Form;
+		  Form    = Form.split(' ').join('\xa0');
+		  
+		  var API_with_strength    = report_list[j].API_with_strength;
+		  API_with_strength    = API_with_strength.split(' ').join('\xa0');
+		  
+		 
         var temp =
           '<tr>\
 			<td><input type="text" name="Product_Name" value=' +
-          report_list[j].Product_Name +
+          Product_Name +
           ' class="text-field" disabled></td>\
 			<td><input type="text" name="Generic_Name" value=' +
-          report_list[j].Generic_Name +
+          Generic_Name +
           ' class="text-field" disabled></td>\
 			<td><input type="text" name="Form" value=' +
-          report_list[j].Form +
+          Form +
           ' class="text-field" disabled></td>\
 			<td><input type="text" name="API_with_strength" value=' +
-          report_list[j].API_with_strength +
+          API_with_strength +
           ' class="text-field" disabled></td>\
 			<td><input type="text" name="Minimum_Batch_size_NOS" value=' +
           report_list[j].Minimum_Batch_size_NOS +
