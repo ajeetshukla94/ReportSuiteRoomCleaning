@@ -279,12 +279,9 @@ def submit_cleaning_room_report():
     final_working_directory = MYDIR + "/" + store_location
     # final_working_directory=store_location
 
-    product_frame['API_with_strength'] = product_frame['API_with_strength'].astype(
-        float)
-    product_frame['Minimum_Batch_size_NOS'] = product_frame['Minimum_Batch_size_NOS'].astype(
-        float)
-    product_frame['Minimum_Batch_size_MG'] = product_frame['Minimum_Batch_size_MG'].astype(
-        float)
+    #product_frame['API_with_strength'] = product_frame['API_with_strength'].astype(float)
+    product_frame['Minimum_Batch_size_NOS'] = product_frame['Minimum_Batch_size_NOS'].astype(float)
+    product_frame['Minimum_Batch_size_MG'] = product_frame['Minimum_Batch_size_MG'].astype(float)
     product_frame['MRDD'] = product_frame['MRDD'].astype(float)
     product_frame['LRDD_MG'] = product_frame['LRDD_MG'].astype(float)
     product_frame['LRDD_NOS'] = product_frame['LRDD_NOS'].astype(float)
