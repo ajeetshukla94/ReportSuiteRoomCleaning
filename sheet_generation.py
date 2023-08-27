@@ -86,7 +86,7 @@ class Sheet_Generation:
                     ws.cell(row=row, column=j+2).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
                    
                 if j>1:
-                    ws.cell(row=row, column=j+2, value=int(row_data[j]))
+                    ws.cell(row=row, column=j+2, value=float(row_data[j]))
                     ws.cell(row=row, column=j+2).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
             
             row=row+1    
@@ -117,6 +117,7 @@ class Sheet_Generation:
     @staticmethod    
     def create_product_sheet(wb,ws,product_frame):
         product_sheet = wb.create_sheet('Product Details')  
+        
         end_column =product_frame.shape[1] +2   
         product_sheet.merge_cells(start_row=2, start_column=2, end_row=2, end_column=end_column)
         product_sheet["B" + str(2)] = 'ANNEXURE - II'
@@ -130,7 +131,8 @@ class Sheet_Generation:
         currentCell = product_sheet["B" + str(3)]
         currentCell.alignment = Alignment(horizontal='center', vertical='center')    
         row = 5
-        j=1        
+        j=1    
+         
         for row_data in product_frame.columns:
             product_sheet.cell(row=row, column=j+2, value=row_data)
             product_sheet.cell(row=row, column=j+2).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
@@ -161,7 +163,7 @@ class Sheet_Generation:
         return wb
        
     @staticmethod
-    def create_pde_sheet(wb,ws,product_frame):
+    def create_pde_sheet(wb,ws,input_frame,product_frame):
         pde_sheet  = wb.create_sheet('PDE')
         end_column = len(product_frame.PDE_VALUE)+4
         pde_sheet.merge_cells(start_row=2, start_column=2, end_row=2, end_column=end_column)
@@ -179,17 +181,28 @@ class Sheet_Generation:
         row = 5
         j=1
 
-
-        for row_data in product_frame.PDE_VALUE:
-            pde_sheet.cell(row=row, column=j+4, value=row_data)
+        product_list  = input_frame.iloc[0][2:]
+        for product in product_list:
+            pde_sheet.cell(row=row, column=j+4, value=product)
             pde_sheet.cell(row=row, column=j+4).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
+            noel_value = product_frame[product_frame['Product_Name']==product]['NOEL'].values[0]
+            pde_sheet.cell(row=row+1, column=j+4, value=noel_value)
+            pde_sheet.cell(row=row+1, column=j+4).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
             j=j+1
 
 
         pde_sheet.merge_cells(start_row=5, start_column=2, end_row=5, end_column=4)
-        pde_sheet["B" + str(5)] = 'PDE Value (A) '
+        pde_sheet["B" + str(5)] = 'Product Name (A) '
         pde_sheet["B" + str(5)].fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
         currentCell = pde_sheet["B" + str(5)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center')          
+        
+        row=row+1
+        
+        pde_sheet.merge_cells(start_row=6, start_column=2, end_row=6, end_column=4)
+        pde_sheet["B" + str(6)] = 'PDE Value (A) '
+        pde_sheet["B" + str(6)].fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+        currentCell = pde_sheet["B" + str(6)]
         currentCell.alignment = Alignment(horizontal='center', vertical='center')  
 
         row=row+1
@@ -211,22 +224,43 @@ class Sheet_Generation:
         currentCell = pde_sheet["D" + str(row)]
         currentCell.alignment = Alignment(horizontal='center', vertical='center') 
         row=row+2
-        for row_data in product_frame.itertuples():
-            for j in range(0,3):   
-                pde_sheet.cell(row=row, column=j+2, value=row_data[j])
-                if j ==0:
-                    pde_sheet.cell(row=row, column=j+2).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
-                else :
-                    pde_sheet.cell(row=row, column=j+2).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
-            row=row+1  
+        
+        counter  = 0
+        
+        new_header      = input_frame.iloc[0] 
+        temp_df         = input_frame[1:] 
+        temp_df.columns = new_header
+        temp_df.dropna(axis=1, how='all',inplace=True) 
 
-        row =row-product_frame.shape[0]  
-        for i in range(0,product_frame.shape[0]):    
-            for j in range(0, len(product_frame.PDE_VALUE)):
-                calculated_value = (product_frame['Minimum_Batch_size_MG'][i]*1000 *product_frame.PDE_VALUE[j] )/(product_frame['LRDD_MG'][i]*1000*86010.3)
-                pde_sheet.cell(row=row, column=j+5, value=calculated_value)
-                pde_sheet.cell(row=row, column=j+5).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
+        temp_row_count =0
+        for product in product_list:
+        
+            pde_sheet.cell(row=row, column=2, value=counter)
+            pde_sheet.cell(row=row, column=2).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
+            
+            pde_sheet.cell(row=row, column=3, value=product)
+            pde_sheet.cell(row=row, column=3).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+            
+            pde_sheet.cell(row=row, column=4, value=product)
+            pde_sheet.cell(row=row, column=4).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+            
+    
+            #print("**********************************************************************")
+            #print(input_frame.shape[0])
+            sumation_row =input_frame.shape[0]+6
+            temp_column_count = 0
+            for temp_product in product_list:
+                i = get_column_letter(temp_column_count+5)
+                pde_sheet['{}{}'.format(i,row)] = """=({column}{row}* 'Product Details'!G{product_list_row} *1000)/('Product Details'!K{product_list_row}* 'Equipment List '!{column_name}{sumation_row} *100)""".format(column=i,column_name=get_column_letter(temp_column_count+4),
+                                                                                                                        row=6,
+                                                                                                                        sumation_row=sumation_row,
+                                                                                                                        product_list_row=temp_row_count+6)
+                temp_column_count =temp_column_count+1
+                
             row=row+1
+            temp_row_count = temp_row_count+1
+            
+          
             
             
             
@@ -235,7 +269,7 @@ class Sheet_Generation:
         pde_sheet["B" + str(row)].fill = PatternFill(start_color='00ff00', end_color='00ff00', fill_type="solid")
         currentCell = ws["B" + str(row)]
         currentCell.alignment = Alignment(horizontal='center', vertical='center') 
-        for column in range(5, len(product_frame.PDE_VALUE)+5):
+        for column in range(5, len(product_list)+5):
             i = get_column_letter(column)
             pde_sheet['{}{}'.format(i,row)] = "=MIN({}7:{}{})".format(i,i,row-1)
             pde_sheet['{}{}'.format(i,row)].fill = PatternFill(start_color='00ff00', end_color='00ff00', fill_type="solid")
@@ -244,8 +278,8 @@ class Sheet_Generation:
         sheet_ranges.column_dimensions["B"].width = 10
         sheet_ranges.column_dimensions["C"].width = 20
         sheet_ranges.column_dimensions["D"].width = 20
-
         column = 5
+        end_column = column+len(product_list)
         while column < end_column:
             i = get_column_letter(column)
             sheet_ranges.column_dimensions[i].width = 10
@@ -254,7 +288,7 @@ class Sheet_Generation:
         return wb
 
     @staticmethod
-    def create_toxicity_sheet(wb,ws,product_frame):
+    def create_toxicity_sheet(wb,ws,input_frame,product_frame):
         toxicity_sheet  = wb.create_sheet('Toxicity')
         end_column = len(product_frame.NOEL)+4
         toxicity_sheet.merge_cells(start_row=2, start_column=2, end_row=2, end_column=end_column)
@@ -271,19 +305,35 @@ class Sheet_Generation:
         currentCell.alignment = Alignment(horizontal='center', vertical='center')    
         row = 5
         j=1
-
-
-        for row_data in product_frame.NOEL:
-            toxicity_sheet.cell(row=row, column=j+4, value=row_data)
+        
+        
+        
+        product_list  = input_frame.iloc[0][2:]
+        for product in product_list:
+            toxicity_sheet.cell(row=row, column=j+4, value=product)
             toxicity_sheet.cell(row=row, column=j+4).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
+            noel_value = product_frame[product_frame['Product_Name']==product]['NOEL'].values[0]
+            toxicity_sheet.cell(row=row+1, column=j+4, value=noel_value)
+            toxicity_sheet.cell(row=row+1, column=j+4).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
             j=j+1
 
 
         toxicity_sheet.merge_cells(start_row=5, start_column=2, end_row=5, end_column=4)
-        toxicity_sheet["B" + str(5)] = 'NOEL (A)   '
+        toxicity_sheet["B" + str(5)] = 'Product Name (A) '
         toxicity_sheet["B" + str(5)].fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
         currentCell = toxicity_sheet["B" + str(5)]
-        currentCell.alignment = Alignment(horizontal='center', vertical='center')  
+        currentCell.alignment = Alignment(horizontal='center', vertical='center')          
+        
+        row=row+1
+        
+        toxicity_sheet.merge_cells(start_row=6, start_column=2, end_row=6, end_column=4)
+        toxicity_sheet["B" + str(6)] = 'NOEL (A) '
+        toxicity_sheet["B" + str(6)].fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+        currentCell = toxicity_sheet["B" + str(6)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center') 
+
+
+
 
         row=row+1
         toxicity_sheet.merge_cells(start_row=row, start_column=2, end_row=row+1, end_column=2)
@@ -304,23 +354,43 @@ class Sheet_Generation:
         currentCell = toxicity_sheet["D" + str(row)]
         currentCell.alignment = Alignment(horizontal='center', vertical='center') 
         row=row+2
-        for row_data in product_frame.itertuples():
-            for j in range(0,3):   
-                toxicity_sheet.cell(row=row, column=j+2, value=row_data[j])
-                if j ==0:
-                    toxicity_sheet.cell(row=row, column=j+2).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
-                else :
-                    toxicity_sheet.cell(row=row, column=j+2).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
-            row=row+1  
 
-        row =row-product_frame.shape[0]  
-        for i in range(0,product_frame.shape[0]):    
-            for j in range(0, len(product_frame.NOEL)):
-                calculated_value = (product_frame['Minimum_Batch_size_NOS'][i]*1000 *product_frame.NOEL[j] )/(product_frame['LRDD_NOS'][i]*1000*86010.3)
-                toxicity_sheet.cell(row=row, column=j+5, value=calculated_value)
-                toxicity_sheet.cell(row=row, column=j+5).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
-            row=row+1
+
+
+
+        counter  = 0        
+        new_header      = input_frame.iloc[0] 
+        temp_df         = input_frame[1:] 
+        temp_df.columns = new_header
+        temp_df.dropna(axis=1, how='all',inplace=True) 
+
+        temp_row_count =0
+        for product in product_list:
+        
+            toxicity_sheet.cell(row=row, column=2, value=counter)
+            toxicity_sheet.cell(row=row, column=2).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
             
+            toxicity_sheet.cell(row=row, column=3, value=product)
+            toxicity_sheet.cell(row=row, column=3).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+            
+            toxicity_sheet.cell(row=row, column=4, value=product)
+            toxicity_sheet.cell(row=row, column=4).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+            
+    
+            #print("**********************************************************************")
+            #print(input_frame.shape[0])
+            sumation_row =input_frame.shape[0]+6
+            temp_column_count = 0
+            for temp_product in product_list:
+                i = get_column_letter(temp_column_count+5)
+                toxicity_sheet['{}{}'.format(i,row)] = """=({column}{row}* 'Product Details'!G{product_list_row} *1000)/('Product Details'!K{product_list_row}* 'Equipment List '!{column_name}{sumation_row} *100)""".format(column=i,column_name=get_column_letter(temp_column_count+4),
+                                                                                                                        row=6,
+                                                                                                                        sumation_row=sumation_row,
+                                                                                                                        product_list_row=temp_row_count+6)
+                temp_column_count =temp_column_count+1
+                
+            row=row+1
+            temp_row_count = temp_row_count+1
             
             
         toxicity_sheet.merge_cells(start_row=row, start_column=2, end_row=row, end_column=4)
@@ -328,26 +398,27 @@ class Sheet_Generation:
         toxicity_sheet["B" + str(row)].fill = PatternFill(start_color='00ff00', end_color='00ff00', fill_type="solid")
         currentCell = ws["B" + str(row)]
         currentCell.alignment = Alignment(horizontal='center', vertical='center') 
-        for column in range(5, len(product_frame.NOEL)+5):
+        for column in range(5, len(product_list)+5):
             i = get_column_letter(column)
             toxicity_sheet['{}{}'.format(i,row)] = "=MIN({}7:{}{})".format(i,i,row-1)
             toxicity_sheet['{}{}'.format(i,row)].fill = PatternFill(start_color='00ff00', end_color='00ff00', fill_type="solid")
         
         sheet_ranges = wb['Toxicity']
         sheet_ranges.column_dimensions["B"].width = 10
-        sheet_ranges.column_dimensions["C"].width = 20
-        sheet_ranges.column_dimensions["D"].width = 20
+        sheet_ranges.column_dimensions["C"].width = 30
+        sheet_ranges.column_dimensions["D"].width = 30
 
         column = 5
+        end_column=column +len(product_list)
         while column < end_column:
             i = get_column_letter(column)
-            sheet_ranges.column_dimensions[i].width = 10
+            sheet_ranges.column_dimensions[i].width = 30
             column += 1   
         
         return wb
 
     @staticmethod
-    def create_dose_base_sheet(wb,ws,product_frame):
+    def create_dose_base_sheet(wb,ws,input_frame,product_frame):
         dose_base_sheet  = wb.create_sheet('dose base')
         end_column = len(product_frame.MRDD)+4
         dose_base_sheet.merge_cells(start_row=2, start_column=2, end_row=2, end_column=end_column)
@@ -366,18 +437,32 @@ class Sheet_Generation:
         j=1
 
 
-        for row_data in product_frame.MRDD:
-            dose_base_sheet.cell(row=row, column=j+4, value=row_data)
+        product_list  = input_frame.iloc[0][2:]
+        for product in product_list:
+            dose_base_sheet.cell(row=row, column=j+4, value=product)
             dose_base_sheet.cell(row=row, column=j+4).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
+            MRDD_value = product_frame[product_frame['Product_Name']==product]['MRDD'].values[0]
+            dose_base_sheet.cell(row=row+1, column=j+4, value=MRDD_value)
+            dose_base_sheet.cell(row=row+1, column=j+4).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
             j=j+1
 
 
         dose_base_sheet.merge_cells(start_row=5, start_column=2, end_row=5, end_column=4)
-        dose_base_sheet["B" + str(5)] = 'MRDD (A)   '
+        dose_base_sheet["B" + str(5)] = 'Product Name (A) '
         dose_base_sheet["B" + str(5)].fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
         currentCell = dose_base_sheet["B" + str(5)]
-        currentCell.alignment = Alignment(horizontal='center', vertical='center')  
-
+        currentCell.alignment = Alignment(horizontal='center', vertical='center')          
+        
+        row=row+1
+        
+        dose_base_sheet.merge_cells(start_row=6, start_column=2, end_row=6, end_column=4)
+        dose_base_sheet["B" + str(6)] = 'MRDD (A) '
+        dose_base_sheet["B" + str(6)].fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+        currentCell = dose_base_sheet["B" + str(6)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center') 
+        
+        
+        
         row=row+1
         dose_base_sheet.merge_cells(start_row=row, start_column=2, end_row=row+1, end_column=2)
         dose_base_sheet["B" + str(row)] = 'S.r. No'
@@ -397,22 +482,38 @@ class Sheet_Generation:
         currentCell = dose_base_sheet["D" + str(row)]
         currentCell.alignment = Alignment(horizontal='center', vertical='center') 
         row=row+2
-        for row_data in product_frame.itertuples():
-            for j in range(0,3):   
-                dose_base_sheet.cell(row=row, column=j+2, value=row_data[j])
-                if j ==0:
-                    dose_base_sheet.cell(row=row, column=j+2).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
-                else :
-                    dose_base_sheet.cell(row=row, column=j+2).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
-            row=row+1  
+        counter  = 0        
+        new_header      = input_frame.iloc[0] 
+        temp_df         = input_frame[1:] 
+        temp_df.columns = new_header
+        temp_df.dropna(axis=1, how='all',inplace=True) 
 
-        row =row-product_frame.shape[0]  
-        for i in range(0,product_frame.shape[0]):    
-            for j in range(0, len(product_frame.MRDD)):
-                calculated_value = (product_frame['Minimum_Batch_size_MG'][i]*1000 *product_frame.MRDD[j] )/(product_frame['LRDD_MG'][i]*1000*86010.3)
-                dose_base_sheet.cell(row=row, column=j+5, value=calculated_value)
-                dose_base_sheet.cell(row=row, column=j+5).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
+        temp_row_count =0
+        for product in product_list:
+        
+            dose_base_sheet.cell(row=row, column=2, value=counter)
+            dose_base_sheet.cell(row=row, column=2).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
+            
+            dose_base_sheet.cell(row=row, column=3, value=product)
+            dose_base_sheet.cell(row=row, column=3).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+            
+            dose_base_sheet.cell(row=row, column=4, value=product)
+            dose_base_sheet.cell(row=row, column=4).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+            
+    
+ 
+            sumation_row =input_frame.shape[0]+6
+            temp_column_count = 0
+            for temp_product in product_list:
+                i = get_column_letter(temp_column_count+5)
+                dose_base_sheet['{}{}'.format(i,row)] = """=({column}{row}* 'Product Details'!H{product_list_row} *1000)/('Product Details'!J{product_list_row}* 'Equipment List '!{column_name}{sumation_row} *100)""".format(column=i,column_name=get_column_letter(temp_column_count+4),
+                                                                                                                        row=6,
+                                                                                                                        sumation_row=sumation_row,
+                                                                                                                        product_list_row=temp_row_count+6)
+                temp_column_count =temp_column_count+1
+                
             row=row+1
+            temp_row_count = temp_row_count+1
             
             
             
@@ -421,21 +522,145 @@ class Sheet_Generation:
         dose_base_sheet["B" + str(row)].fill = PatternFill(start_color='00ff00', end_color='00ff00', fill_type="solid")
         currentCell = ws["B" + str(row)]
         currentCell.alignment = Alignment(horizontal='center', vertical='center') 
-        for column in range(5, len(product_frame.NOEL)+5):
+        for column in range(5, len(product_list)+5):
             i = get_column_letter(column)
             dose_base_sheet['{}{}'.format(i,row)] = "=MIN({}7:{}{})".format(i,i,row-1)
             dose_base_sheet['{}{}'.format(i,row)].fill = PatternFill(start_color='00ff00', end_color='00ff00', fill_type="solid")
         
         sheet_ranges = wb['dose base']
         sheet_ranges.column_dimensions["B"].width = 10
-        sheet_ranges.column_dimensions["C"].width = 20
-        sheet_ranges.column_dimensions["D"].width = 20
+        sheet_ranges.column_dimensions["C"].width = 30
+        sheet_ranges.column_dimensions["D"].width = 30
 
         column = 5
+        end_column=column +len(product_list)
         while column < end_column:
             i = get_column_letter(column)
-            sheet_ranges.column_dimensions[i].width = 10
+            sheet_ranges.column_dimensions[i].width = 30
             column += 1   
         
         return wb
 
+    @staticmethod
+    def create_ppm_sheet(wb,ws,input_frame,product_frame):
+        ppm_sheet  = wb.create_sheet('10 ppm')
+        end_column = len(product_frame.MRDD)+4
+        ppm_sheet.merge_cells(start_row=2, start_column=2, end_row=2, end_column=end_column)
+        ppm_sheet["B" + str(2)] = 'ANNEXURE - V'
+        ppm_sheet["B" + str(2)].fill = PatternFill(start_color='00cc99', end_color='00cc99', fill_type="solid")
+        currentCell = ppm_sheet["B" + str(2)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center')
+
+
+        ppm_sheet.merge_cells(start_row=3, start_column=2, end_row=4, end_column=end_column)
+        ppm_sheet["B" + str(3)] = 'Amt. of Residue allowed (G/CM)  Calculation on based 10 PPM'
+        ppm_sheet["B" + str(3)].fill = PatternFill(start_color='ff9933', end_color='ff9933', fill_type="solid")
+        currentCell = ppm_sheet["B" + str(3)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center')    
+        row = 5
+        j=1
+
+
+        product_list  = input_frame.iloc[0][2:]
+        for product in product_list:
+            ppm_sheet.cell(row=row, column=j+4, value=product)
+            ppm_sheet.cell(row=row, column=j+4).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
+            ppm_sheet.cell(row=row+1, column=j+4, value=0.001)
+            ppm_sheet.cell(row=row+1, column=j+4).fill = PatternFill(start_color='ffcc99', end_color='ffcc99', fill_type="solid")
+            j=j+1
+
+
+        ppm_sheet.merge_cells(start_row=5, start_column=2, end_row=5, end_column=4)
+        ppm_sheet["B" + str(5)] = 'Product Name (A) '
+        ppm_sheet["B" + str(5)].fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+        currentCell = ppm_sheet["B" + str(5)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center')          
+        
+        row=row+1
+        
+        ppm_sheet.merge_cells(start_row=6, start_column=2, end_row=6, end_column=4)
+        ppm_sheet["B" + str(6)] = '10 ppm  (A) '
+        ppm_sheet["B" + str(6)].fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+        currentCell = ppm_sheet["B" + str(6)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center') 
+        
+        
+        
+        row=row+1
+        ppm_sheet.merge_cells(start_row=row, start_column=2, end_row=row+1, end_column=2)
+        ppm_sheet["B" + str(row)] = 'S.r. No'
+        ppm_sheet["B" + str(row)].fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
+        currentCell = ppm_sheet["B" + str(row)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center') 
+
+        ppm_sheet.merge_cells(start_row=row, start_column=3, end_row=row+1, end_column=3)
+        ppm_sheet["C" + str(row)] = 'Product Name'
+        ppm_sheet["C" + str(row)].fill = PatternFill(start_color='cc7a00', end_color='cc7a00', fill_type="solid")
+        currentCell = ppm_sheet["C" + str(row)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center') 
+
+        ppm_sheet.merge_cells(start_row=row, start_column=4, end_row=row+1, end_column=4)
+        ppm_sheet["D" + str(row)] = 'Generic Name'
+        ppm_sheet["D" + str(row)].fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
+        currentCell = ppm_sheet["D" + str(row)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center') 
+        row=row+2
+        counter  = 0        
+        new_header      = input_frame.iloc[0] 
+        temp_df         = input_frame[1:] 
+        temp_df.columns = new_header
+        temp_df.dropna(axis=1, how='all',inplace=True) 
+
+        temp_row_count =0
+        for product in product_list:
+        
+            ppm_sheet.cell(row=row, column=2, value=counter)
+            ppm_sheet.cell(row=row, column=2).fill = PatternFill(start_color='e0e0d1', end_color='e0e0d1', fill_type="solid")
+            
+            ppm_sheet.cell(row=row, column=3, value=product)
+            ppm_sheet.cell(row=row, column=3).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+            
+            ppm_sheet.cell(row=row, column=4, value=product)
+            ppm_sheet.cell(row=row, column=4).fill = PatternFill(start_color='3399ff', end_color='3399ff', fill_type="solid")
+            
+    
+            #print("**********************************************************************")
+            #print(input_frame.shape[0])
+            sumation_row =input_frame.shape[0]+6
+            temp_column_count = 0
+            for temp_product in product_list:
+                i = get_column_letter(temp_column_count+5)
+                ppm_sheet['{}{}'.format(i,row)] = """=({column}{row}* 'Product Details'!H{product_list_row} *1000)/( 'Equipment List '!{column_name}{sumation_row})""".format(column=i,column_name=get_column_letter(temp_column_count+4),
+                                                                                                                        row=6,
+                                                                                                                        sumation_row=sumation_row,
+                                                                                                                        product_list_row=temp_row_count+6)
+                temp_column_count =temp_column_count+1
+                
+            row=row+1
+            temp_row_count = temp_row_count+1
+            
+            
+            
+        ppm_sheet.merge_cells(start_row=row, start_column=2, end_row=row, end_column=4)
+        ppm_sheet["B" + str(row)] = ' Minimum Value Amt. of Residue allowed (G/CM)  Based on 10pmm '
+        ppm_sheet["B" + str(row)].fill = PatternFill(start_color='00ff00', end_color='00ff00', fill_type="solid")
+        currentCell = ws["B" + str(row)]
+        currentCell.alignment = Alignment(horizontal='center', vertical='center') 
+        for column in range(5, len(product_list)+5):
+            i = get_column_letter(column)
+            ppm_sheet['{}{}'.format(i,row)] = "=MIN({}7:{}{})".format(i,i,row-1)
+            ppm_sheet['{}{}'.format(i,row)].fill = PatternFill(start_color='00ff00', end_color='00ff00', fill_type="solid")
+        
+        sheet_ranges = wb['10 ppm']
+        sheet_ranges.column_dimensions["B"].width = 10
+        sheet_ranges.column_dimensions["C"].width = 30
+        sheet_ranges.column_dimensions["D"].width = 30
+
+        column = 5
+        end_column=column +len(product_list)
+        while column < end_column:
+            i = get_column_letter(column)
+            sheet_ranges.column_dimensions[i].width = 30
+            column += 1   
+        
+        return wb

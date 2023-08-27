@@ -25,23 +25,23 @@ $('<th>', {'html': '<div style="display: flex;">\
 			<span class="input-group-text remove remove-col">x</span>\
 		  </div>'
   }).appendTo(lastTheadRow);
-  $('<td>', {'html': '<input type="text"  value="" class="form-control"/>'
+  $('<td>', {'html': '<input type="text"  value="" placeholder="Enter Product Contact Surface Area Of Equipment" class="form-control"/>'
   }).insertAfter('td:last-child');
 });
 </script>
 <div id="frame_container">
-  <h5 class="section-header">Add New Row</h5>
+  <h5 class="section-header">List of Equipment With Their Product Contact Surface Area Calculation </h5>
   <div class="data-frame">
     <div class="frame">
       <div class="table-content">
-        <button class="btn btn-link add-row add-row-column">Add Row</button>
-        <button class="btn btn-link add-col add-row-column">Add Column</button>
+        <button class="btn btn-link add-row add-row-column">Add Equipment</button>
+        <button class="btn btn-link add-col add-row-column">Add Product</button>
         <div class="table-responsive">
           <table class="code_table table-bordered">
             <thead>
               <tr>
                 <th></th>
-                <th>Select Equipment</th>
+                <th>Select Equipment & Product</th>
                 <th>
                   <div class="input-group">
                     <select class="form-control" style="padding: 5px">
@@ -99,8 +99,8 @@ $('<th>', {'html': '<div style="display: flex;">\
                     {% endfor %}
                   </select>
                 </td>
-                <td><input type="text" value="" class="form-control" /></td>
-                <td><input type="text" value="" class="form-control" /></td>
+                <td><input type="text" value="" placeholder="Enter Product Contact Surface Area Of Equipment" class="form-control" /></td>
+                <td><input type="text" value="" placeholder="Enter Product Contact Surface Area Of Equipment" class="form-control" /></td>
               </tr>
             </tbody>
           </table>

@@ -8,12 +8,12 @@
 
 <!-- FRAME SECTION START -->
 <div id="frame_container">
-  <h5 class="section-header">Equipment Table</h5>
+  <h5 class="section-header">Equipment List</h5>
   <div class="data-frame">
     <div class="frame">
       <div class="sections">
         <div class="table-responsive">
-          <table class="code_table table-bordered table-striped">
+          <table class="code_table table-bordered ">
             <thead>
               <tr>
                 <th>Equipment Name</th>
@@ -23,7 +23,7 @@
             <tbody>
               {% for eqp in equipmet_list %}
               <tr>
-                <td>
+                <td class="col-sm-12">
                   <input
                     type="text"
                     name="Product_Name"

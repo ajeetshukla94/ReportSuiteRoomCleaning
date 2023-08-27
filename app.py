@@ -270,7 +270,7 @@ def submit_cleaning_room_report():
     userName = session_var['username']
     data = request.args.get('params_data')
     data = json.loads(data)
-    temp_df = pd.DataFrame(data)
+    input_frame = pd.DataFrame(data)
 
     product_frame = dbo.get_product_details()
     file_name = "Cleaning_room_report_{}.xlsx".format(
@@ -289,13 +289,16 @@ def submit_cleaning_room_report():
     product_frame['LD50'] = product_frame['LD50'].astype(float)
     product_frame['NOEL'] = product_frame['NOEL'].astype(float)
 
+
+    product_frame = product_frame[product_frame.Product_Name.isin(input_frame.iloc[0][2:])]
     wb = Workbook()
     ws = wb.active
-    wb = Sheet_Generation.create_equipment_sheet(wb, ws, temp_df)
-    wb = Sheet_Generation.create_product_sheet(wb, ws, product_frame)
-    wb = Sheet_Generation.create_pde_sheet(wb, ws, product_frame)
-    wb = Sheet_Generation.create_toxicity_sheet(wb, ws, product_frame)
-    wb = Sheet_Generation.create_dose_base_sheet(wb, ws, product_frame)
+    wb = Sheet_Generation.create_equipment_sheet(wb, ws, input_frame)
+    wb = Sheet_Generation.create_product_sheet(wb, ws,product_frame)
+    wb = Sheet_Generation.create_pde_sheet(wb, ws,input_frame,product_frame)
+    wb = Sheet_Generation.create_toxicity_sheet(wb, ws,input_frame, product_frame)
+    wb = Sheet_Generation.create_dose_base_sheet(wb, ws,input_frame, product_frame)
+    wb = Sheet_Generation.create_ppm_sheet(wb, ws,input_frame, product_frame)
     wb.save(final_working_directory)
 
     dbo.insert_file(file_name, userName, final_working_directory)
