@@ -3,19 +3,18 @@
 <script defer src="/static/js/script1.js"></script>
 <script defer src="/static/js/template.js"></script>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-<script >
-var body = $('body');
-body.on('click', 'button.add-col', function() 
-{
-  var table = $(this).closest('div.table-content').find('table'),
-  thead = table.find('thead'),
-  lastTheadRow = thead.find('tr:last-child'),
-  tbody = table.find('tbody');
+<script>
+  var body = $("body");
+  body.on("click", "button.add-col", function () {
+    var table = $(this).closest("div.table-content").find("table"),
+      thead = table.find("thead"),
+      lastTheadRow = thead.find("tr:last-child"),
+      tbody = table.find("tbody");
 
- 
-$('<th>', {'html': '<div style="display: flex;">\
+    $("<th>", {
+      html: '<div style="display: flex;">\
             <select class="form-control" style="padding:5px;">\
 			  <option value="" selected>Select an Product</option>\
 			  {% for product in product_list %}\
@@ -23,18 +22,23 @@ $('<th>', {'html': '<div style="display: flex;">\
 			  {% endfor %}					\
 		    </select>	\
 			<span class="input-group-text remove remove-col">x</span>\
-		  </div>'
-  }).appendTo(lastTheadRow);
-  $('<td>', {'html': '<input type="text"  value="" placeholder="Enter Product Contact Surface Area Of Equipment" class="form-control"/>'
-  }).insertAfter('td:last-child');
-});
+		  </div>',
+    }).appendTo(lastTheadRow);
+    $("<td>", {
+      html: '<input type="text"  value="" placeholder="Enter Product Contact Surface Area Of Equipment" class="form-control"/>',
+    }).insertAfter("td:last-child");
+  });
 </script>
 <div id="frame_container">
-  <h5 class="section-header">List of Equipment With Their Product Contact Surface Area Calculation </h5>
+  <h5 class="section-header">
+    List of Equipment With Their Product Contact Surface Area Calculation
+  </h5>
   <div class="data-frame">
     <div class="frame">
       <div class="table-content">
-        <button class="btn btn-link add-row add-row-column">Add Equipment</button>
+        <button class="btn btn-link add-row add-row-column">
+          Add Equipment
+        </button>
         <button class="btn btn-link add-col add-row-column">Add Product</button>
         <div class="table-responsive">
           <table class="code_table table-bordered">
@@ -69,7 +73,7 @@ $('<th>', {'html': '<div style="display: flex;">\
             <tbody>
               <tr>
                 <td>
-                 <span class="delete-row" onclick="delete_row(this)">
+                  <span class="delete-row" onclick="delete_row(this)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       height="0.625em"
@@ -99,8 +103,22 @@ $('<th>', {'html': '<div style="display: flex;">\
                     {% endfor %}
                   </select>
                 </td>
-                <td><input type="text" value="" placeholder="Enter Product Contact Surface Area Of Equipment" class="form-control" /></td>
-                <td><input type="text" value="" placeholder="Enter Product Contact Surface Area Of Equipment" class="form-control" /></td>
+                <td>
+                  <input
+                    type="text"
+                    value=""
+                    placeholder="Enter Product Contact Surface Area Of Equipment"
+                    class="form-control"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value=""
+                    placeholder="Enter Product Contact Surface Area Of Equipment"
+                    class="form-control"
+                  />
+                </td>
               </tr>
             </tbody>
           </table>
@@ -115,11 +133,50 @@ $('<th>', {'html': '<div style="display: flex;">\
       id="submit_button"
       type="submit"
       class="btn btn-sm btn-success add_user-btn col-sm-2"
-      onclick="submit_Report()"
+      onclick="confirmSubmitReport()"
     >
       Submit
     </button>
   </div>
 </div>
 
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeConfirmationModal()">&times;</span>
+    <p class="confirmation-text">Are you sure you want to submit?</p>
+    <div class="button-container">
+      <button
+        id="confirmButton"
+        class="confirm-button"
+        onclick="submitReportAndCloseModal()"
+      >
+        Confirm
+      </button>
+      <button
+        id="cancelButton"
+        class="cancel-button"
+        onclick="closeConfirmationModal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function confirmSubmitReport() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "flex";
+  }
+
+  function closeConfirmationModal() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "none";
+  }
+
+  function submitReportAndCloseModal() {
+    submit_Report();
+    closeConfirmationModal();
+  }
+</script>
 {% endblock %}

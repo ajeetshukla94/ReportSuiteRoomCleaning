@@ -68,12 +68,12 @@
                   View User Details
                 </button>
                 <!-- <button -->
-                  <!-- id="submit_button" -->
-                  <!-- type="submit" -->
-                  <!-- class="btn col-sm-6 btn-row" -->
-                  <!-- onclick="delete_user_details()" -->
+                <!-- id="submit_button" -->
+                <!-- type="submit" -->
+                <!-- class="btn col-sm-6 btn-row" -->
+                <!-- onclick="delete_user_details()" -->
                 <!-- > -->
-                  <!-- Delete User -->
+                <!-- Delete User -->
                 <!-- </button> -->
               </td>
             </tr>
@@ -109,10 +109,33 @@
       name="user_details_button"
       type="submit"
       class="btn col-sm-2 add_user-btn"
-      onclick="update_user_details()"
+      onclick="confirmUpdateUserDetails()"
     >
       Update User Details
     </button>
+  </div>
+</div>
+
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeConfirmationModal()">&times;</span>
+    <p class="confirmation-text">Are you sure you want to update user details?</p>
+    <div class="button-container">
+      <button
+        id="confirmButton"
+        class="confirm-button"
+        onclick="updateUserDetailsAndCloseModal()"
+      >
+        Confirm
+      </button>
+      <button
+        id="cancelButton"
+        class="cancel-button"
+        onclick="closeConfirmationModal()"
+      >
+        Cancel
+      </button>
+    </div>
   </div>
 </div>
 
@@ -121,5 +144,20 @@
     var role = "{{ role }}";
     handle_nav_bar(role);
   });
+
+  function confirmUpdateUserDetails() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "flex";
+  }
+
+  function closeConfirmationModal() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "none";
+  }
+
+  function updateUserDetailsAndCloseModal() {
+    update_user_details();
+    closeConfirmationModal();
+  }
 </script>
 {% endblock %}

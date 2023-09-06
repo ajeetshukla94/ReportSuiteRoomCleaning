@@ -70,10 +70,33 @@
       name="user_details_button"
       type="submit"
       class="btn col-sm-2 add_user-btn"
-      onclick="update_profile_details()"
+      onclick="confirmUpdateProfileDetails()"
     >
       Update User Details
     </button>
+  </div>
+</div>
+
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeConfirmationModal()">&times;</span>
+    <p class="confirmation-text">Are you sure you want to update profile details?</p>
+    <div class="button-container">
+      <button
+        id="confirmButton"
+        class="confirm-button"
+        onclick="updateProfileDetailsAndCloseModal()"
+      >
+        Confirm
+      </button>
+      <button
+        id="cancelButton"
+        class="cancel-button"
+        onclick="closeConfirmationModal()"
+      >
+        Cancel
+      </button>
+    </div>
   </div>
 </div>
 
@@ -82,5 +105,20 @@
     var role = "{{ role }}";
     handle_nav_bar(role);
   });
+
+  function confirmUpdateProfileDetails() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "flex";
+  }
+
+  function closeConfirmationModal() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "none";
+  }
+
+  function updateProfileDetailsAndCloseModal() {
+    update_profile_details();
+    closeConfirmationModal();
+  }
 </script>
 {% endblock %}

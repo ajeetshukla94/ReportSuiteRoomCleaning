@@ -93,13 +93,13 @@
               <span class="nav-link-text">Room Cleaning</span>
             </az>
             <ul class="sidenav-second-level collapse" id="collapseMylistings2">
-			  <li>
+              <li>
                 <a href="/UpdateEquipmentlist">Update Equipment List</a>
               </li>
               <li>
                 <a href="/UpdateProductList">Update Product List</a>
               </li>
-			  <li>
+              <li>
                 <a href="/cleaning_room">Cleaning Room</a>
               </li>
               <li>
@@ -129,7 +129,13 @@
                 <a href="/update_self_profile_page">Profile</a>
               </li>
               <li>
-                <a href="/logout">Logout</a>
+                <a
+                  class="nav-link nav-link-collapse collapsed"
+                  data-toggle="modal"
+                  data-target="#logoutModal"
+                >
+                  <span class="nav-link-text">Logout</span>
+                </a>
               </li>
             </ul>
           </li>
@@ -149,6 +155,33 @@
         </div>
       </div>
     </footer>
+
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <span
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            onclick="closeConfirmationModal()"
+            >&times;</span
+          >
+          <div class="modal-body">Are you sure you want to log out?</div>
+          <div class="button-container">
+            <a href="/logout" class="confirm-button">Logout</a>
+            <button type="button" class="cancel-button" data-dismiss="modal">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
       (function ($) {
@@ -197,7 +230,6 @@
         });
       })(jQuery);
     </script>
-    <!-- Bootstrap core JavaScript-->
     <script src="../static/jquery/jquery.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.bundle.min.js"></script>
   </body>

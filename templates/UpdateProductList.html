@@ -3,9 +3,6 @@
 <script defer src="static/js/script1.js"></script>
 <script defer src="static/js/template.js"></script>
 
-
-
-
 <!-- FRAME SECTION START -->
 <div id="frame_container">
   <h5 class="section-header">Product Description</h5>
@@ -152,12 +149,19 @@
               {% endfor %}
             </tbody>
           </table>
-        
-        <div class="add-row-button">
-          <button  id="add_row1"  type="button"  class="btn col-sm-2 add-row btn-row" onclick="add_row(this)">Add Row</button>
+
+          <div class="add-row-button">
+            <button
+              id="add_row1"
+              type="button"
+              class="btn col-sm-2 add-row btn-row"
+              onclick="add_row(this)"
+            >
+              Add Row
+            </button>
+          </div>
+          <hr size="10" />
         </div>
-        <hr size="10" />
-	</div>
       </div>
     </div>
   </div>
@@ -167,11 +171,51 @@
       id="submit_button"
       type="submit"
       class="btn col-sm-2 add_user-btn"
-      onclick="updateProductList()"
+      onclick="confirmUpdateProductList()"
     >
       Submit
     </button>
   </div>
 </div>
+
+<div id="confirmationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeConfirmationModal()">&times;</span>
+    <p class="confirmation-text">Are you sure you want to update?</p>
+    <div class="button-container">
+      <button
+        id="confirmButton"
+        class="confirm-button"
+        onclick="updateProductListAndCloseModal()"
+      >
+        Confirm
+      </button>
+      <button
+        id="cancelButton"
+        class="cancel-button"
+        onclick="closeConfirmationModal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function confirmUpdateProductList() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "flex";
+  }
+
+  function closeConfirmationModal() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "none";
+  }
+
+  function updateProductListAndCloseModal() {
+    updateProductList();
+    closeConfirmationModal();
+  }
+</script>
 
 {% endblock %}
